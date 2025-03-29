@@ -51,6 +51,8 @@ func main() {
 	for _, p := range products {
 		fmt.Printf("Product %v has value %.2f\n", p.Name, p.Price)
 	}
+	
+	err = deleteProduct(db, product.ID)
 }
 
 func insertProduct(db *sql.DB, product *Product) error {
@@ -113,4 +115,17 @@ func selectAllProducts(db *sql.DB) ([]Product, error) {
 		products = append(products, p)
 	}
 	return products, nil
+}
+
+func deleteProduct(db *sql.DB, id string) error {
+	stmt, err := db.Prepare("delete from products where id = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
