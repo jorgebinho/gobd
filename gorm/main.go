@@ -18,4 +18,16 @@ func main() {
 		panic(err)
 	}
 	db.AutoMigrate(&Product{})
+
+	db.Create(&Product{
+		Name:  "Notebook",
+		Price: 7899.96,
+	})
+
+	products := []Product{
+		{Name: "Mouse", Price: 76.54},
+		{Name: "Keyboard", Price: 200},
+	}
+
+	db.Create(&products)
 }
