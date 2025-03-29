@@ -38,6 +38,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	p, err := selectProduct(db, product.ID)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("Product: %v has value %.2f", p.Name, p.Price)
 }
 
 func insertProduct(db *sql.DB, product *Product) error {
@@ -68,4 +75,18 @@ func updateProduct(db *sql.DB, product *Product) error {
 		return err
 	}
 	return nil
+}
+
+func selectProduct(db *sql.DB, id string) (*Product, error) {
+	stmt, err := db.Prepare("select id, name, price from products where id = ?")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+	var p Product
+	err = stmt.QueryRow(id).Scan(&p.ID, &p.Name, &p.Price)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
 }
