@@ -53,6 +53,9 @@ func main() {
 	}
 	
 	err = deleteProduct(db, product.ID)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func insertProduct(db *sql.DB, product *Product) error {
