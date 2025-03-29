@@ -9,15 +9,15 @@ import (
 )
 
 type Product struct {
-	ID string
-	Name string
+	ID    string
+	Name  string
 	Price float64
 }
 
 func NewProduct(name string, price float64) *Product {
 	return &Product{
-		ID: uuid.New().String(),
-		Name: name,
+		ID:    uuid.New().String(),
+		Name:  name,
 		Price: price,
 	}
 }
@@ -51,7 +51,7 @@ func main() {
 	for _, p := range products {
 		fmt.Printf("Product %v has value %.2f\n", p.Name, p.Price)
 	}
-	
+
 	err = deleteProduct(db, product.ID)
 	if err != nil {
 		panic(err)
